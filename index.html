@@ -11,38 +11,21 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.4/codemirror.min.css"
     />
 
-    <style>
-      body {
-        margin: 0;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-      }
-      canvas {
-        margin-top: 10rem;
-        display: block;
-        background-color: #f0f0f0;
-        flex: 1; /* Makes the canvas take all available space */
-      }
-      #editor {
-        height: 200px;
-        width: 100%;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="editor"></div>
+    <div id="main-layout">
+      <div id="game-container"></div>
+      <div id="editor-container">
+        <div id="editor"></div>
+        <button id="runButton">Run Code</button>
+      </div>
+    </div>
 
-    <!-- Phaser Library -->
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
-
-    <!-- CodeMirror JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.4/codemirror.min.js"></script>
-
-    <!-- CodeMirror Python mode (for syntax highlighting) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.4/mode/python/python.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/pyodide@0.22.0/pyodide.js"></script>
     <script src="./src/main.js"></script>
   </body>
 </html>
