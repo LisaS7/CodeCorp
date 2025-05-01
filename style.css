@@ -1,0 +1,45 @@
+body {
+  width: 90%;
+  margin: auto;
+  overflow: hidden;
+}
+canvas {
+  display: block;
+  background-color: #f0f0f0;
+  flex: 1; /* Makes the canvas take all available space */
+}
+
+#main-layout {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  margin: 4rem;
+}
+
+#game-container {
+  flex: 1.5;
+}
+
+#editor-container {
+  flex: 1;
+  height: auto;
+  margin: 3rem;
+  padding: 3rem;
+  flex-direction: column;
+  border: 2px solid black;
+}
+
+/* Style the button */
+#run-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+#run-button:hover {
+  background-color: #45a049;
+}
