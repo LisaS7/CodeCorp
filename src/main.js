@@ -1,4 +1,5 @@
-import { loadPyodidePlugin } from "./pyodideRunner.js";
+import Phaser from "../lib/phaser.js";
+import { loadPyodidePlugin } from "../lib/pyodide.js";
 import { MenuScene } from "./scenes/menuScene.js";
 import { gameConfig } from "../config/game.js";
 import { TestingScene } from "./scenes/testingScene.js";

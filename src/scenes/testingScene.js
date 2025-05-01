@@ -1,4 +1,4 @@
-import { initEditor, runEditorCode } from "../codeEditor.js";
+import { initEditor, runEditorCode } from "../../lib/codeMirror.js";
 import { normalFontConfig } from "../../config/text.js";
 
 export class TestingScene extends Phaser.Scene {
