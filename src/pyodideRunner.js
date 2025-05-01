@@ -24,7 +24,11 @@ export async function runUserCode(code) {
 
   try {
     await pyodide.runPythonAsync(code);
+
+    // retrieve output from the stdout python object
     const output = await pyodide.runPythonAsync("sys.stdout.data");
+
+    // clear the buffer so the next output doesn't contain leftovers
     await pyodide.runPythonAsync("sys.stdout.data = ''");
     return output;
   } catch (err) {
