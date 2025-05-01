@@ -5,8 +5,6 @@ import { gameConfig } from "../config/game.js";
 import { TestingScene } from "./scenes/testingScene.js";
 
 const config = {
-  type: Phaser.AUTO,
-  parent: "game-container",
   ...gameConfig,
   scene: [TestingScene],
 };

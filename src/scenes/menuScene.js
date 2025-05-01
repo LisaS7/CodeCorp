@@ -1,3 +1,4 @@
+import Phaser from "../../lib/phaser.js";
 import { titleFontConfig, menuItemFontConfig } from "../../config/text.js";
 import { menuConfig } from "../../config/game.js";
 

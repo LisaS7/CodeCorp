@@ -1,3 +1,4 @@
+import Phaser from "../../lib/phaser.js";
 import { initEditor, runEditorCode } from "../../lib/codeMirror.js";
 import { normalFontConfig } from "../../config/text.js";
 
