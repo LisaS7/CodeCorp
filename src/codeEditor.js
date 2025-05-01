@@ -6,7 +6,7 @@ export function initEditor() {
     mode: "python",
     lineNumbers: true,
     matchBrackets: true,
-    theme: "default",
+    theme: "monokai",
     extraKeys: {
       "Ctrl-Space": "autocomplete",
     },
