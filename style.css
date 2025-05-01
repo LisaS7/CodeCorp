@@ -31,7 +31,7 @@ canvas {
 }
 
 /* Style the button */
-#runButton {
+#run-button {
   margin-top: 20px;
   padding: 10px 20px;
   background-color: #4caf50;
@@ -40,6 +40,6 @@ canvas {
   cursor: pointer;
   font-size: 16px;
 }
-#runButton:hover {
+#run-button:hover {
   background-color: #45a049;
 }
