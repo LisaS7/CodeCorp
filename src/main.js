@@ -1,4 +1,5 @@
-import { loadPyodidePlugin, runUserCode } from "./pyodideRunner.js";
+import { loadPyodidePlugin } from "./pyodideRunner.js";
+import { initEditor, runEditorCode } from "./codeEditor.js";
 
 // Game configuration
 const config = {
@@ -16,37 +17,12 @@ const config = {
 
 let codeText;
 let outputText;
+let editor = null;
 
 const game = new Phaser.Game(config);
 
-// Initialize CodeMirror for the code editor
-const editor = CodeMirror(document.getElementById("editor"), {
-  value: 'print("Hello, World!")',
-  mode: "python",
-  lineNumbers: true,
-  matchBrackets: true,
-  theme: "default",
-  extraKeys: {
-    "Ctrl-Space": "autocomplete",
-  },
-});
-
 // Load pyodide
 await loadPyodidePlugin();
-
-// Link up the button
-document.getElementById("run-button").addEventListener("click", async () => {
-  console.log("button clicked");
-  const userCode = editor.getValue();
-
-  try {
-    const output = await runUserCode(userCode);
-    console.log(output); // or display in-game / UI
-    outputText.text = "Output: " + output;
-  } catch (err) {
-    console.error(err);
-  }
-});
 
 // Preload assets
 function preload() {
@@ -62,15 +38,21 @@ function create() {
     wordWrap: { width: 760, useAdvancedWrap: true },
   };
 
+  // Initialize CodeMirror for the code editor
+  editor = initEditor();
+
   codeText = this.add.text(20, 400, "Hi", fontConfig);
   outputText = this.add.text(20, 500, "Output: ", fontConfig);
 
   const logo = this.add.image(400, 300, "logo");
   logo.setOrigin(0.5, 0.5);
+
+  document.getElementById("run-button").addEventListener("click", async () => {
+    const result = await runEditorCode(editor);
+    outputText.text = result.output;
+    codeText.text = result.code;
+  });
 }
 
 // Game loop
-function update() {
-  const code = editor.getValue();
-  codeText.text = code;
-}
+function update() {}
