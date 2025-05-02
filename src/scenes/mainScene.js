@@ -39,8 +39,13 @@ export class MainScene extends Phaser.Scene {
         this.codeText.text = result.code;
       });
 
+    const testChoices = ["option1", "option2", "option3", "option4"];
+
     this.#dialogue = new Dialogue(this);
-    this.#choices = new Choices(this);
+    this.#choices = new Choices(this, testChoices);
+
+    this.#dialogue.create();
+    this.#choices.create();
   }
 
   update() {}
