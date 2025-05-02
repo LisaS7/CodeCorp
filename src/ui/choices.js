@@ -1,35 +1,41 @@
 import { choicePaneConfig } from "../../config/game.js";
 import { normalFontConfig } from "../../config/text.js";
+import { DIRECTION } from "../utilities/direction.js";
+import { styleSelectedChoice } from "../utilities/menu.js";
 
-const testChoices = ["option1", "option2", "option3", "option4"];
-
-export class Choices extends Phaser.Scene {
+export class Choices {
   /** @type Phaser.Scene */
   #scene;
   /** @type Phaser.GameObjects.Container */
   #container;
   /** @type Phaser.Types.Input.Keyboard.CursorKeys */
   #cursorKeys;
+  /** @type {number} */
+  #selectedIndex;
+  /** @type {string[]} */
+  #choices = [];
 
   /**
    *
    * @param {Phaser.Scene} scene
+   * @param {string[]} choices
    */
-  constructor(scene) {
-    super("choicesScene");
+  constructor(scene, choices) {
     this.#scene = scene;
+    this.#choices = choices;
+
+    console.log("constructor");
   }
 
   create() {
-    this.#createChoicePane(testChoices);
-    this.#cursorKeys = this.input.keyboard.createCursorKeys();
+    this.#cursorKeys = this.#scene.input.keyboard.createCursorKeys();
+    console.log("create");
+    this.#createChoicePane();
   }
 
-  /**
-   *
-   * @param {string[]} choices
-   */
-  #createChoicePane(choices = []) {
+  update() {}
+
+  #createChoicePane() {
     const {
       height,
       rectPadding,
@@ -56,7 +62,7 @@ export class Choices extends Phaser.Scene {
     const textPaddingY = height * 0.3;
 
     // slice to cap choices at 4
-    choices.slice(0, 4).forEach((text, index) => {
+    this.#choices.slice(0, 4).forEach((text, index) => {
       const col = index % 2;
       const row = Math.floor(index / 2);
 
@@ -77,5 +83,37 @@ export class Choices extends Phaser.Scene {
 
   hide() {
     this.#container.setVisible(false);
+  }
+
+  /**
+   *
+   * @param {number} index
+   */
+  #highlightChoice(index) {
+    this.#container.iterate((item, i) => {
+      if (item instanceof Phaser.GameObjects.Text) {
+        styleSelectedChoice(item, i === index);
+      }
+    });
+  }
+
+  /**
+   *
+   * @param {''} input
+   */
+  handleInput(input) {
+    /** @type {import("../utilities/direction.js").Direction} */
+    let direction = DIRECTION.NONE;
+
+    if (this.#cursorKeys.left.isDown) {
+      direction = DIRECTION.LEFT;
+    } else if (this.#cursorKeys.right.isDown) {
+    } else if (this.#cursorKeys.up.isDown) {
+    } else if (this.#cursorKeys.down.isDown) {
+    }
+
+    if (direction !== DIRECTION.NONE) {
+      // handle input
+    }
   }
 }
