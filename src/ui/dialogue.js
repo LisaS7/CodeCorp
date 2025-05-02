@@ -4,7 +4,7 @@ import { normalFontConfig } from "../../config/text.js";
 
 const text = "I am testing this component";
 
-export class Dialogue {
+export class Dialogue extends Phaser.Scene {
   /** @type Phaser.Scene */
   #scene;
   /** @type Phaser.GameObjects.Container */
@@ -15,7 +15,11 @@ export class Dialogue {
    * @param {Phaser.Scene} scene
    */
   constructor(scene) {
+    super("dialogueScene");
     this.#scene = scene;
+  }
+
+  create() {
     this.#createSmallDialoguePane();
   }
 

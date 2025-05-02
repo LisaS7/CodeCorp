@@ -3,19 +3,26 @@ import { normalFontConfig } from "../../config/text.js";
 
 const testChoices = ["option1", "option2", "option3", "option4"];
 
-export class Choices {
+export class Choices extends Phaser.Scene {
   /** @type Phaser.Scene */
   #scene;
   /** @type Phaser.GameObjects.Container */
   #container;
+  /** @type Phaser.Types.Input.Keyboard.CursorKeys */
+  #cursorKeys;
 
   /**
    *
    * @param {Phaser.Scene} scene
    */
   constructor(scene) {
+    super("choicesScene");
     this.#scene = scene;
+  }
+
+  create() {
     this.#createChoicePane(testChoices);
+    this.#cursorKeys = this.input.keyboard.createCursorKeys();
   }
 
   /**
