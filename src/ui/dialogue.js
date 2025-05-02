@@ -1,11 +1,19 @@
+import Phaser from "../../lib/phaser.js";
 import { smallDialoguePaneConfig } from "../../config/game.js";
 import { normalFontConfig } from "../../config/text.js";
 
 const text = "I am testing this component";
 
 export class Dialogue {
+  /** @type Phaser.Scene */
   #scene;
+  /** @type Phaser.GameObjects.Container */
+  #container;
 
+  /**
+   *
+   * @param {Phaser.Scene} scene
+   */
   constructor(scene) {
     this.#scene = scene;
     this.#createSmallDialoguePane();
@@ -18,7 +26,7 @@ export class Dialogue {
     const baseX = 0;
     const baseY = this.#scene.scale.height - height - padding;
 
-    const container = this.#scene.add.container(baseX, baseY);
+    this.#container = this.#scene.add.container(baseX, baseY);
 
     const background = this.#scene.add
       .rectangle(
@@ -32,9 +40,17 @@ export class Dialogue {
       .setOrigin(0)
       .setStrokeStyle(borderWidth, borderColour, 1);
 
-    container.add(background);
+    this.#container.add(background);
 
     const dialogueText = this.#scene.add.text(20, 20, text, normalFontConfig);
-    container.add(dialogueText);
+    this.#container.add(dialogueText);
+  }
+
+  show() {
+    this.#container.setVisible(true);
+  }
+
+  hide() {
+    this.#container.setVisible(false);
   }
 }

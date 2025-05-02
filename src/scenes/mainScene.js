@@ -5,7 +5,9 @@ import { Dialogue } from "../ui/dialogue.js";
 import { Choices } from "../ui/choices.js";
 
 export class MainScene extends Phaser.Scene {
+  /** @type Dialogue */
   #dialogue;
+  /** @type Choices */
   #choices;
 
   constructor() {

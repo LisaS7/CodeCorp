@@ -4,13 +4,24 @@ import { normalFontConfig } from "../../config/text.js";
 const testChoices = ["option1", "option2", "option3", "option4"];
 
 export class Choices {
+  /** @type Phaser.Scene */
   #scene;
+  /** @type Phaser.GameObjects.Container */
+  #container;
 
+  /**
+   *
+   * @param {Phaser.Scene} scene
+   */
   constructor(scene) {
     this.#scene = scene;
     this.#createChoicePane(testChoices);
   }
 
+  /**
+   *
+   * @param {string[]} choices
+   */
   #createChoicePane(choices = []) {
     const {
       height,
@@ -26,13 +37,13 @@ export class Choices {
     const baseX = this.#scene.scale.width - width - rectPadding;
     const baseY = this.#scene.scale.height - height - rectPadding;
 
-    const container = this.#scene.add.container(baseX, baseY);
+    this.#container = this.#scene.add.container(baseX, baseY);
 
     const background = this.#scene.add
       .rectangle(0, 0, width, height, bgColour, 1)
       .setOrigin(0, 0)
       .setStrokeStyle(borderWidth, borderColour, 1);
-    container.add(background);
+    this.#container.add(background);
 
     const textPaddingX = width * 0.2;
     const textPaddingY = height * 0.3;
@@ -49,7 +60,15 @@ export class Choices {
         normalFontConfig
       );
 
-      container.add(choiceText);
+      this.#container.add(choiceText);
     });
+  }
+
+  show() {
+    this.#container.setVisible(true);
+  }
+
+  hide() {
+    this.#container.setVisible(false);
   }
 }
