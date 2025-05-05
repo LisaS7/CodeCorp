@@ -40,6 +40,7 @@ export class Choices {
   #createChoicePane() {
     const {
       height,
+      width_proportion,
       rectPadding,
       bgColour,
       borderWidth,
@@ -48,7 +49,7 @@ export class Choices {
       rowSpacing,
     } = choicePaneConfig;
 
-    const width = this.#scene.scale.width * 0.4;
+    const width = this.#scene.scale.width * width_proportion;
     const baseX = this.#scene.scale.width - width - rectPadding;
     const baseY = this.#scene.scale.height - height - rectPadding;
 

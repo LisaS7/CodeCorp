@@ -35,6 +35,7 @@ export const menuConfig = {
 
 export const smallDialoguePaneConfig = {
   height: 124,
+  width_proportion: 0.6,
   padding: 4,
   bgColour: colours.lightestGrey,
   borderWidth: 8,
@@ -43,6 +44,7 @@ export const smallDialoguePaneConfig = {
 
 export const choicePaneConfig = {
   height: 124,
+  width_proportion: 0.4,
   rectPadding: 4,
   bgColour: smallDialoguePaneConfig.bgColour,
   borderWidth: 8,
