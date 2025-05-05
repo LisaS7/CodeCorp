@@ -37,16 +37,24 @@ export class MainScene extends Phaser.Scene {
         this.codeText.text = result.code;
       });
 
+    const testDialogues = [
+      "this is the first text. it is kinda long but whatever. It will wrap to a new line whenever we reach the limit of the dialogue box and it shouldn't hide anything under the choices pane.",
+      "this is the second bit of text",
+      "and now there's a third",
+    ];
     const testChoices = ["option1", "option2", "option3", "option4"];
 
     this.#dialogue = new Dialogue(this);
     this.#choices = new Choices(this, testChoices);
 
     this.#dialogue.create();
+    this.#dialogue.queueMessages(testDialogues);
+    this.#dialogue.showNextMessage();
     this.#choices.create();
   }
 
   update() {
     this.#choices.update();
+    this.#dialogue.update();
   }
 }
