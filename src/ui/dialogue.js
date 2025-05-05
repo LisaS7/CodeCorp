@@ -14,6 +14,8 @@ export class Dialogue {
   #messageQueue = [];
   /** @type Phaser.GameObjects.Text */
   #dialogueText;
+  /** @type Phaser.Input.Keyboard.Key */
+  #spaceKey;
   /** @type Choices | undefined */
   #choices;
 
@@ -29,12 +31,15 @@ export class Dialogue {
 
   create() {
     this.#createSmallDialoguePane();
+    this.#spaceKey = this.#scene.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.SPACE
+    );
   }
 
   update() {
-    this.#scene.input.keyboard.on("keydown-SPACE", () => {
+    if (Phaser.Input.Keyboard.JustDown(this.#spaceKey)) {
       this.showNextMessage();
-    });
+    }
   }
 
   #createSmallDialoguePane() {
