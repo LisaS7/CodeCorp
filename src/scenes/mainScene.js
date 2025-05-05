@@ -27,8 +27,6 @@ export class MainScene extends Phaser.Scene {
     // Output test variables on game screen
     this.codeText = this.add.text(20, 200, "Hi", normalFontConfig);
     this.outputText = this.add.text(20, 300, "Output: ", normalFontConfig);
-    const logo = this.add.image(400, 300, "logo");
-    logo.setOrigin(0.5, 0.5);
 
     // Connect up UI Elements
     document
@@ -39,9 +37,24 @@ export class MainScene extends Phaser.Scene {
         this.codeText.text = result.code;
       });
 
+    const testDialogues = [
+      "this is the first text. it is kinda long but whatever. It will wrap to a new line whenever we reach the limit of the dialogue box and it shouldn't hide anything under the choices pane.",
+      "this is the second bit of text",
+      "and now there's a third",
+    ];
+    const testChoices = ["option1", "option2", "option3", "option4"];
+
     this.#dialogue = new Dialogue(this);
-    this.#choices = new Choices(this);
+    this.#choices = new Choices(this, testChoices);
+
+    this.#dialogue.create();
+    this.#dialogue.queueMessages(testDialogues);
+    this.#dialogue.showNextMessage();
+    this.#choices.create();
   }
 
-  update() {}
+  update() {
+    this.#choices.update();
+    this.#dialogue.update();
+  }
 }

@@ -1,37 +1,46 @@
 import { choicePaneConfig } from "../../config/game.js";
 import { normalFontConfig } from "../../config/text.js";
+import { styleSelectedChoice } from "../utilities/style.js";
 
-const testChoices = ["option1", "option2", "option3", "option4"];
-
-export class Choices extends Phaser.Scene {
+export class Choices {
   /** @type Phaser.Scene */
   #scene;
   /** @type Phaser.GameObjects.Container */
   #container;
   /** @type Phaser.Types.Input.Keyboard.CursorKeys */
   #cursorKeys;
+  /** @type {number} */
+  #selectedIndex;
+  /** @type {string[]} */
+  #choices = [];
+  /** @type {Phaser.GameObjects.Text[]} */
+  #textObjects = [];
 
   /**
    *
    * @param {Phaser.Scene} scene
+   * @param {string[]} choices
    */
-  constructor(scene) {
-    super("choicesScene");
+  constructor(scene, choices) {
     this.#scene = scene;
+    this.#choices = choices;
+    this.#selectedIndex = 0;
   }
 
   create() {
-    this.#createChoicePane(testChoices);
-    this.#cursorKeys = this.input.keyboard.createCursorKeys();
+    this.#cursorKeys = this.#scene.input.keyboard.createCursorKeys();
+    this.#createChoicePane();
+    this.#highlightChoice(0);
   }
 
-  /**
-   *
-   * @param {string[]} choices
-   */
-  #createChoicePane(choices = []) {
+  update() {
+    this.handleInput();
+  }
+
+  #createChoicePane() {
     const {
       height,
+      width_proportion,
       rectPadding,
       bgColour,
       borderWidth,
@@ -40,7 +49,7 @@ export class Choices extends Phaser.Scene {
       rowSpacing,
     } = choicePaneConfig;
 
-    const width = this.#scene.scale.width * 0.4;
+    const width = this.#scene.scale.width * width_proportion;
     const baseX = this.#scene.scale.width - width - rectPadding;
     const baseY = this.#scene.scale.height - height - rectPadding;
 
@@ -56,7 +65,7 @@ export class Choices extends Phaser.Scene {
     const textPaddingY = height * 0.3;
 
     // slice to cap choices at 4
-    choices.slice(0, 4).forEach((text, index) => {
+    this.#choices.slice(0, 4).forEach((text, index) => {
       const col = index % 2;
       const row = Math.floor(index / 2);
 
@@ -67,6 +76,7 @@ export class Choices extends Phaser.Scene {
         normalFontConfig
       );
 
+      this.#textObjects.push(choiceText);
       this.#container.add(choiceText);
     });
   }
@@ -77,5 +87,36 @@ export class Choices extends Phaser.Scene {
 
   hide() {
     this.#container.setVisible(false);
+  }
+
+  /**
+   *
+   * @param {number} index
+   */
+  #highlightChoice(index) {
+    this.#textObjects.forEach((item, i) => {
+      styleSelectedChoice(item, i === index);
+    });
+  }
+
+  handleInput() {
+    let currentColumn = (this.#selectedIndex % 2) + 1;
+    let currentRow = Math.floor(this.#selectedIndex / 2) + 1;
+    let newIndex = this.#selectedIndex;
+
+    if (this.#cursorKeys.left.isDown && currentColumn === 2) {
+      newIndex -= 1;
+    } else if (this.#cursorKeys.right.isDown && currentColumn === 1) {
+      newIndex += 1;
+    } else if (this.#cursorKeys.up.isDown && currentRow === 2) {
+      newIndex -= 2;
+    } else if (this.#cursorKeys.down.isDown && currentRow === 1) {
+      newIndex += 2;
+    }
+
+    if (newIndex !== this.#selectedIndex && newIndex < this.#choices.length) {
+      this.#selectedIndex = newIndex;
+      this.#highlightChoice(newIndex);
+    }
   }
 }
