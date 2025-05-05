@@ -27,8 +27,6 @@ export class MainScene extends Phaser.Scene {
     // Output test variables on game screen
     this.codeText = this.add.text(20, 200, "Hi", normalFontConfig);
     this.outputText = this.add.text(20, 300, "Output: ", normalFontConfig);
-    const logo = this.add.image(400, 300, "logo");
-    logo.setOrigin(0.5, 0.5);
 
     // Connect up UI Elements
     document
@@ -48,5 +46,7 @@ export class MainScene extends Phaser.Scene {
     this.#choices.create();
   }
 
-  update() {}
+  update() {
+    this.#choices.update();
+  }
 }

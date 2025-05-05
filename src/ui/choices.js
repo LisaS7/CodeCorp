@@ -1,7 +1,6 @@
 import { choicePaneConfig } from "../../config/game.js";
 import { normalFontConfig } from "../../config/text.js";
-import { DIRECTION } from "../utilities/direction.js";
-import { styleSelectedChoice } from "../utilities/menu.js";
+import { styleSelectedChoice } from "../utilities/style.js";
 
 export class Choices {
   /** @type Phaser.Scene */
@@ -14,6 +13,8 @@ export class Choices {
   #selectedIndex;
   /** @type {string[]} */
   #choices = [];
+  /** @type {Phaser.GameObjects.Text[]} */
+  #textObjects = [];
 
   /**
    *
@@ -23,17 +24,18 @@ export class Choices {
   constructor(scene, choices) {
     this.#scene = scene;
     this.#choices = choices;
-
-    console.log("constructor");
+    this.#selectedIndex = 0;
   }
 
   create() {
     this.#cursorKeys = this.#scene.input.keyboard.createCursorKeys();
-    console.log("create");
     this.#createChoicePane();
+    this.#highlightChoice(0);
   }
 
-  update() {}
+  update() {
+    this.handleInput();
+  }
 
   #createChoicePane() {
     const {
@@ -73,6 +75,7 @@ export class Choices {
         normalFontConfig
       );
 
+      this.#textObjects.push(choiceText);
       this.#container.add(choiceText);
     });
   }
@@ -90,30 +93,29 @@ export class Choices {
    * @param {number} index
    */
   #highlightChoice(index) {
-    this.#container.iterate((item, i) => {
-      if (item instanceof Phaser.GameObjects.Text) {
-        styleSelectedChoice(item, i === index);
-      }
+    this.#textObjects.forEach((item, i) => {
+      styleSelectedChoice(item, i === index);
     });
   }
 
-  /**
-   *
-   * @param {''} input
-   */
-  handleInput(input) {
-    /** @type {import("../utilities/direction.js").Direction} */
-    let direction = DIRECTION.NONE;
+  handleInput() {
+    let currentColumn = (this.#selectedIndex % 2) + 1;
+    let currentRow = Math.floor(this.#selectedIndex / 2) + 1;
+    let newIndex = this.#selectedIndex;
 
-    if (this.#cursorKeys.left.isDown) {
-      direction = DIRECTION.LEFT;
-    } else if (this.#cursorKeys.right.isDown) {
-    } else if (this.#cursorKeys.up.isDown) {
-    } else if (this.#cursorKeys.down.isDown) {
+    if (this.#cursorKeys.left.isDown && currentColumn === 2) {
+      newIndex -= 1;
+    } else if (this.#cursorKeys.right.isDown && currentColumn === 1) {
+      newIndex += 1;
+    } else if (this.#cursorKeys.up.isDown && currentRow === 2) {
+      newIndex -= 2;
+    } else if (this.#cursorKeys.down.isDown && currentRow === 1) {
+      newIndex += 2;
     }
 
-    if (direction !== DIRECTION.NONE) {
-      // handle input
+    if (newIndex !== this.#selectedIndex && newIndex < this.#choices.length) {
+      this.#selectedIndex = newIndex;
+      this.#highlightChoice(newIndex);
     }
   }
 }
