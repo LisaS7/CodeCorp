@@ -89,6 +89,10 @@ export class Choices {
     this.#container.setVisible(false);
   }
 
+  isVisible() {
+    return this.#container.visible;
+  }
+
   /**
    *
    * @param {number} index
